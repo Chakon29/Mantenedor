@@ -1,0 +1,70 @@
+<app-navbaredit></app-navbaredit>
+<div class="row mt-1 justify-content-center">
+    <div class="col-lg-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header text-center">Agregar Persona</div>
+            <div class="card-body">
+                <h4 class="card-title">Ingrese Campos</h4>
+                <div class="card-text">
+                    <form [formGroup]="form" (ngSubmit)="guardarPersona()">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input formControlName="nombre" type="text" class="form-control" id="nombre" placeholder="Nombre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input formControlName="apellido" type="text" class="form-control" id="apellido" placeholder="Apellido">
+                        </div>
+                        <div class="mb-3">
+                            <label for="rut" class="form-label">RUT</label>
+                            <input formControlName="rut" type="text" class="form-control" id="rut" placeholder="11111111-1">
+                            <div *ngIf="form?.get('rut')?.invalid && (form?.get('rut')?.dirty || form?.get('rut')?.touched)">
+                                <div *ngIf="form?.get('rut')?.errors?.['formatoInvalido']">El formato del RUT es inválido.</div>
+                                <div *ngIf="form?.get('rut')?.errors?.['dvInvalido']">El dígito verificador del RUT es incorrecto.</div>
+                            </div>
+                        </div>                       
+                        <div class="mb-3">
+                            <label for="sexo" class="form-label">Sexo</label>
+                            <select formControlName="sexo" class="form-select">
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                                <option value="No">Prefiero no decirlo</option>
+                              </select>                             
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input formControlName="telefono" type="text" class="form-control" id="telefono" placeholder="999999999 o 299999999">
+                            <div *ngIf="telefonoInvalido">
+                                <div *ngIf="telefono?.errors?.['formatoTelefonoInvalido']">El formato del teléfono es inválido.</div>
+                            </div>
+                        </div>                       
+                        <div class="mb-3">
+                            <label for="direccion" class="form-label">Dirección</label>
+                            <input formControlName="direccion" type="text" class="form-control" id="direccion" placeholder="Calle 123, Comuna">
+                            <div *ngIf="direccionInvalida">
+                                <div *ngIf="direccion?.errors?.['direccionInvalida']">La dirección es inválida.</div>
+                            </div>
+                        </div>                       
+                        <div class="mb-3">
+                            <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                            <input formControlName="fecha" type="date" class="form-control" id="fechaNacimiento">
+                            <div *ngIf="fechaInvalida">
+                                <div *ngIf="fecha?.errors?.['fechaInvalida']">La fecha de nacimiento es inválida.</div>
+                            </div>
+                        </div>                      
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input formControlName="email" type="email" class="form-control" id="email" placeholder="Ingrese el email">
+                            <div *ngIf="emailInvalido">
+                                <div *ngIf="email?.errors?.['emailInvalido']">El formato del email es inválido.</div>
+                            </div>
+                        </div>
+                        
+                        <button [disabled]="form.invalid" type="submit" class="btn btn-primary" routerLink="/home">Guardar</button>
+                        <button type="submit" class="btn btn-secondary mt-2" routerLink="/home">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

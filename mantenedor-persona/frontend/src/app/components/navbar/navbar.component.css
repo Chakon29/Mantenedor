@@ -1,0 +1,21 @@
+.navbar-collapse {
+    max-height: none; /* Asegúrate de que no haya un max-height establecido */
+    overflow: visible; /* Si se establece overflow:hidden, cámbialo a overflow:visible */
+}
+
+.navbar-nav .nav-link {
+    padding: 0.5rem 1rem; /* Ajusta el padding para garantizar suficiente espacio */
+    /* Otros estilos según sea necesario */
+}
+
+@media (max-width: 600px) {
+    /* Estilos específicos para pantallas más pequeñas */
+    .navbar-collapse {
+        max-height: none; /* Puedes ajustar el max-height si es necesario */
+    }
+
+    .navbar-nav .nav-link {
+        padding: 0.5rem 0.75rem; /* Ajusta el padding según sea necesario */
+        /* Otros estilos según sea necesario */
+    }
+}
