@@ -57,7 +57,7 @@ export const updatePersona = async (req: Request, res: Response) => {
     const { id} = req.params;
     
     try {
-        const persona = await Persona;
+        const persona = await Persona.findByPk(id);
     if(persona) {
        await persona.update(body);
        res.json({

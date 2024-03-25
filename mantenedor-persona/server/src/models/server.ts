@@ -1,4 +1,5 @@
 import express, { Application,Request, Response } from 'express';
+import cors from 'cors';
 import routesPersona from '../routes/persona';
 import db from '../db/connection';
 
@@ -31,6 +32,7 @@ class Server{
     }
     midlewares(){
         this.app.use(express.json());
+        this.app.use(cors());
     }
     async dbConnect() {
         try {

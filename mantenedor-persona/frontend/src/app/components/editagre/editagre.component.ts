@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Persona } from '../../interfaces/persona';
+import { PersonaService } from '../../services/persona.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-editagre',
@@ -9,7 +12,12 @@ import { Persona } from '../../interfaces/persona';
 })
 export class EditagreComponent implements OnInit {
   form: FormGroup;
-  constructor(private fb: FormBuilder) {
+  loading: boolean = false;
+
+  constructor(private fb: FormBuilder,
+    private _personaService: PersonaService,
+    private router: Router,
+    private toastr: ToastrService) {
      this.form =  this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
@@ -26,6 +34,7 @@ export class EditagreComponent implements OnInit {
   }
   
   guardarPersona() {
+
     const persona: Persona ={
       nombre: this.form.value.nombre,
       apellido: this.form.value.apellido,
@@ -36,9 +45,14 @@ export class EditagreComponent implements OnInit {
       fechaNacimiento: this.form.value.fechaNacimiento,
       email: this.form.value.email
     }
-    console.log(persona)
+    
+    this.loading = true;
+    this._personaService.savePersona(persona).subscribe(() => {
+      this.loading = false;
+      this.toastr.success(`La persona ${persona.nombre} ha sido registrada con exito`, 'Persona registrada');
+      this.router.navigate(['/']);
+    })
   }
-
   // Funciones de validación y otras funciones
 
   validarSexo(control: { value: string; }) {

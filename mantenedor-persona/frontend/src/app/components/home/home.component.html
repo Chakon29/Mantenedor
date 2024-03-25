@@ -1,11 +1,11 @@
-
-<div class="container mt-2 ">
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="container mt-2 ">
     <div class="title ">
         <h3> Personas</h3>
     </div>     
     <button type="button" class="btn btn-primary" routerLink="/add">Agregar Persona</button>
     <div class="table-responsive">
-        <table class="table ">
+        <table *ngIf="listpersonas.length > 0" class="table ">
             <thead>
               <tr>
                 <th scope="col">Nombre</th>
@@ -30,11 +30,14 @@
                 <td>{{ item.fechaNacimiento }}</td>
                 <td>{{ item.email }}</td>
                 <td>
-                    <button type="button" class="btn btn-info btn-sm">Editar</button>
-                    <button type="button" class="btn btn-secondary btn-sm ms-2">Eliminar</button>
+                    <button routerLink="/edit/{{ item.id }}" type="button" class="btn btn-info btn-sm">Editar</button>
+                    <button (click)="deletePersona(item.id!)" type="button" class="btn btn-secondary btn-sm ms-2">Eliminar</button>
                 </td>
               </tr>
             </tbody>
         </table>
-    </div>
+        <div>
+          <h4 *ngIf="listpersonas.length == 0">No hay Personas para desplegar</h4>
+        </div>
+      </div>
 </div>

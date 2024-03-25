@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Persona } from '../../interfaces/persona';
+import { PersonaService } from '../../services/persona.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -7,37 +9,30 @@ import { Persona } from '../../interfaces/persona';
   styleUrls: ['./home.component.css'] // La propiedad se llama 'styleUrls' en lugar de 'styleUrl'
 })
 export class HomeComponent implements OnInit {
-  listpersonas: Persona[] = [
-    {
-      nombre: 'Juan',
-      apellido: 'Perez',
-      rut: '12345678-9',
-      sexo: 'Masculino',
-      telefono: '+56912345678',
-      direccion: 'Calle 123',
-      fechaNacimiento: new Date('1990-01-01'),
-      email: 'juan@example.com'
-    },
-  ];
+  listpersonas: Persona[] = [];
+  loading: boolean = false;
 
-  constructor() { }
+  constructor(private _personaService: PersonaService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
+    this.getListPersonas()
   }
 
-  agregarPersona() {
-    const nuevaPersona: Persona = {
-      nombre: '',
-      apellido: '',
-      rut: '',
-      sexo: '',
-      telefono: '',
-      direccion: '',
-      fechaNacimiento: new Date(),
-      email: ''
-    };
-    
-    this.listpersonas.push(nuevaPersona);
+  getListPersonas() {
+    this.loading =true;
+    this._personaService.getListPersonas().subscribe((data: Persona[]) => {
+      this.listpersonas = data;
+      this.loading =false;
+    })
+  }
+
+
+  deletePersona(id: number){
+    this.loading = true;
+    this._personaService.deletePersona(id).subscribe(() => {
+      this.getListPersonas();
+      this.toastr.warning('La persona ha sido eliminada satisfactoriamente', 'Persona eliminada')
+    })
   }
 }
 

@@ -68,7 +68,7 @@ const updatePersona = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const { body } = req;
     const { id } = req.params;
     try {
-        const persona = yield persona_1.default;
+        const persona = yield persona_1.default.findByPk(id);
         if (persona) {
             yield persona.update(body);
             res.json({
