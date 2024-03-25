@@ -20,34 +20,30 @@ const getPersonas = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getPersonas = getPersonas;
 const getPersona = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { rut } = req.params;
-    const persona = yield persona_1.default.findByPk(rut);
+    const { id } = req.params;
+    const persona = yield persona_1.default.findByPk(id);
     if (persona) {
         res.json(persona);
     }
     else {
         res.status(404).json({
-            msg: `No existe persona con el rut ${rut}`
+            msg: `No existe persona con el ${id}`
         });
     }
-    res.json({
-        msg: 'get Persona',
-        rut: rut
-    });
 });
 exports.getPersona = getPersona;
 const deletePersona = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { rut } = req.params;
-    const persona = yield persona_1.default.findByPk(rut);
+    const { id } = req.params;
+    const persona = yield persona_1.default.findByPk(id);
     if (!persona) {
         res.status(404).json({
-            msg: `No existe persona con el rut ${rut}`
+            msg: `No existe persona con el id ${id}`
         });
     }
     else {
         yield persona.destroy();
         res.json({
-            msg: `Se ha eliminado la persona con el rut ${rut} con exito`
+            msg: `Se ha eliminado la persona con el ${id} con exito`
         });
     }
 });
@@ -70,18 +66,18 @@ const postPersona = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.postPersona = postPersona;
 const updatePersona = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
-    const { rut } = req.params;
+    const { id } = req.params;
     try {
-        const persona = yield persona_1.default.findByPk(rut);
+        const persona = yield persona_1.default;
         if (persona) {
             yield persona.update(body);
             res.json({
-                msg: `Se ha actualizado los datos de la persona ${rut}`
+                msg: `Se ha actualizado los datos de la persona ${id}`
             });
         }
         else {
             res.status(404).json({
-                msg: `No existe persona con el rut ${rut}`
+                msg: `No existe persona con el rut ${id}`
             });
         }
     }

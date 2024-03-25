@@ -7,35 +7,31 @@ export const getPersonas = async (req: Request, res: Response) => {
 }
 
 export const getPersona = async (req: Request, res: Response) => {
-    const {rut} = req.params;
-    const persona = await Persona.findByPk(rut)
+    const {id} = req.params;
+    const persona = await Persona.findByPk(id)
 
     if(persona){
         res.json(persona)
     } else {
         res.status(404).json({
-            msg: `No existe persona con el rut ${rut}`
+            msg: `No existe persona con el ${id}`
         });
     }
     
-    res.json({
-        msg: 'get Persona',
-        rut: rut
-    })
 }
 
 export const deletePersona = async (req: Request, res: Response) => {
-    const {rut} = req.params;
-    const persona = await Persona.findByPk(rut);
+    const {id} = req.params;
+    const persona = await Persona.findByPk(id);
     
     if(!persona) {
         res.status(404).json({
-            msg: `No existe persona con el rut ${rut}`
+            msg: `No existe persona con el id ${id}`
         })
     } else {
         await persona.destroy();
         res.json({
-            msg: `Se ha eliminado la persona con el rut ${rut} con exito`
+            msg: `Se ha eliminado la persona con el ${id} con exito`
         });
     }
 }
@@ -58,18 +54,18 @@ export const postPersona = async (req: Request, res: Response) => {
 }
 export const updatePersona = async (req: Request, res: Response) => {
     const {body} = req;
-    const { rut} = req.params;
+    const { id} = req.params;
     
     try {
-        const persona = await Persona.findByPk(rut);
+        const persona = await Persona;
     if(persona) {
        await persona.update(body);
        res.json({
-        msg: `Se ha actualizado los datos de la persona ${rut}`
+        msg: `Se ha actualizado los datos de la persona ${id}`
     });
     }   else {
         res.status(404).json({
-            msg: `No existe persona con el rut ${rut}`
+            msg: `No existe persona con el rut ${id}`
         });
     }
     } catch(error){

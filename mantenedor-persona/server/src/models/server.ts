@@ -1,6 +1,5 @@
 import express, { Application,Request, Response } from 'express';
 import routesPersona from '../routes/persona';
-import routesUsuario from '../routes/usuario';
 import db from '../db/connection';
 
 class Server{
@@ -29,8 +28,6 @@ class Server{
                 })
         })
         this.app.use('/api/personas', routesPersona)
-
-        this.app.use('/api/usuario', routesUsuario)
     }
     midlewares(){
         this.app.use(express.json());

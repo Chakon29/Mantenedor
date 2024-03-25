@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+
 <div class="container mt-2 ">
     <div class="title ">
         <h3> Personas</h3>
@@ -30,7 +30,7 @@
                 <td>{{ item.fechaNacimiento }}</td>
                 <td>{{ item.email }}</td>
                 <td>
-                    <button type="button" [routerLink]="['/edit', item.rut ]" class="btn btn-info btn-sm">Editar</button>
+                    <button type="button" class="btn btn-info btn-sm">Editar</button>
                     <button type="button" class="btn btn-secondary btn-sm ms-2">Eliminar</button>
                 </td>
               </tr>

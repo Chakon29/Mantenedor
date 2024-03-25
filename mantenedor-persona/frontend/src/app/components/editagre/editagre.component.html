@@ -1,4 +1,4 @@
-<app-navbaredit></app-navbaredit>
+
 <div class="row mt-1 justify-content-center">
     <div class="col-lg-4">
         <div class="card text-white bg-primary mb-3">
@@ -6,7 +6,7 @@
             <div class="card-body">
                 <h4 class="card-title">Ingrese Campos</h4>
                 <div class="card-text">
-                    <form [formGroup]="form" (ngSubmit)="guardarPersona()">
+                    <form [formGroup]="form" (ngSubmit)="guardarPersona()" >
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input formControlName="nombre" type="text" class="form-control" id="nombre" placeholder="Nombre">
@@ -47,7 +47,7 @@
                         </div>                       
                         <div class="mb-3">
                             <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-                            <input formControlName="fecha" type="date" class="form-control" id="fechaNacimiento">
+                            <input formControlName="fechaNacimiento" type="date" class="form-control" id="fechaNacimiento">
                             <div *ngIf="fechaInvalida">
                                 <div *ngIf="fecha?.errors?.['fechaInvalida']">La fecha de nacimiento es inválida.</div>
                             </div>
@@ -60,8 +60,8 @@
                             </div>
                         </div>
                         
-                        <button [disabled]="form.invalid" type="submit" class="btn btn-primary" routerLink="/home">Guardar</button>
-                        <button type="submit" class="btn btn-secondary mt-2" routerLink="/home">Cancelar</button>
+                        <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn btn-secondary mt-2" routerLink="/">Cancelar</button>
                     </form>
                 </div>
             </div>

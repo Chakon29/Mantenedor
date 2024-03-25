@@ -2,15 +2,16 @@ import { DataTypes } from 'sequelize';
 import db from '../db/connection';
 
 const Persona = db.define('Persona', {
-    rut: {
-        type: DataTypes.STRING,
-        primaryKey: true // Definir rut como clave primaria
-    },
+    
+
     nombre: {
         type: DataTypes.STRING
     },
     apellido:{
         type: DataTypes.STRING
+    },
+    rut: {
+        type: DataTypes.STRING,
     },
     sexo:{
         type: DataTypes.STRING

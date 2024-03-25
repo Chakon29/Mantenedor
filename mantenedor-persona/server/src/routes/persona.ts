@@ -4,8 +4,8 @@ import { deletePersona, getPersonas,getPersona, postPersona, updatePersona } fro
 const router = Router();
 
 router.get('/', getPersonas);
-router.get('/:rut', getPersona)
-router.delete('/:rut', deletePersona)
+router.get('/:id', getPersona)
+router.delete('/:id', deletePersona)
 router.post('/', postPersona)
-router.put('/:rut', updatePersona)
+router.put('/:id', updatePersona)
 export default router;
