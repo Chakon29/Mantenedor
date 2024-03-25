@@ -8,10 +8,8 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 })
 export class EditagreComponent implements OnInit {
   form: FormGroup;
-  id: number = 0; // Inicializamos id en el constructor
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      id: [''],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
       rut: ['', [Validators.required, this.validarRut.bind(this)]],
@@ -21,31 +19,11 @@ export class EditagreComponent implements OnInit {
       fecha: ['', Validators.required],
       email: ['', [Validators.required, this.validarEmail()]]
     });
-
-    this.obtenerNuevoId(); // Obtener un nuevo ID al inicializar el componente
   }
 
   ngOnInit(): void {
   }
-
-  obtenerNuevoId() {
-    // Implementa la lógica para obtener el nuevo ID basado en los datos existentes
-    // Esta función debería obtener el último ID de tus datos existentes y generar un nuevo ID incrementado en uno
-    const ultimoId = this.obtenerUltimoId(); // Supongamos que obtienes el último ID de tus datos existentes
-    this.id = ultimoId + 1; // Genera un nuevo ID incrementado en uno
-
-    // Actualiza el campo ID del formulario
-    this.form.patchValue({
-      id: this.id
-    });
-  }
-
-  obtenerUltimoId() {
-    // Implementa la lógica para obtener el último ID de tus datos existentes
-    // Supongamos que aquí tienes la lógica para obtener el último ID de tus datos existentes
-    // Por ahora, retornemos un valor de ejemplo
-    return 1; // Retorna 1 como ejemplo
-  }
+  
 
   // Funciones de validación y otras funciones
 

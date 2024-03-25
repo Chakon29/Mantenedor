@@ -9,7 +9,6 @@ import { Persona } from '../../interfaces/persona';
 export class HomeComponent implements OnInit {
   listpersonas: Persona[] = [
     {
-      id: '1',
       nombre: 'Juan',
       apellido: 'Perez',
       rut: '12345678-9',
@@ -28,7 +27,6 @@ export class HomeComponent implements OnInit {
 
   agregarPersona() {
     const nuevaPersona: Persona = {
-      id: (this.listpersonas.length + 1).toString(), // Asignación automática del ID
       nombre: '',
       apellido: '',
       rut: '',

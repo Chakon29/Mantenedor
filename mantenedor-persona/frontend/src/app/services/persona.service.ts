@@ -1,5 +1,4 @@
 // persona.service.ts
-
 import { Injectable } from '@angular/core';
 import { Persona } from '../interfaces/persona';
 
@@ -13,7 +12,6 @@ export class PersonaService {
   obtenerPersonas(): Persona[] {
     return [
       {
-        id: '1',
         nombre: 'Juan',
         apellido: 'Perez',
         rut: '12345678-9',
