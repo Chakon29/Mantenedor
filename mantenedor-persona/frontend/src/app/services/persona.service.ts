@@ -26,4 +26,10 @@ export class PersonaService {
   savePersona(persona: Persona):Observable<void>{
    return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}`, persona)
   }
+  getPersona(id: number): Observable<Persona>{
+    return this.http.get<Persona>(`${this.myAppUrl}${this.myApiUrl}${id}`)
+  }
+  updatePresona(id:number, persona: Persona): Observable<void>{
+    return this.http.put<void>(`${this.myAppUrl}${this.myApiUrl}${id}`, persona)
+  }
 }

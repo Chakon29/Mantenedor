@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Persona } from '../../interfaces/persona';
 import { PersonaService } from '../../services/persona.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { StringExpression } from 'mongoose';
 
 @Component({
   selector: 'app-editagre',
@@ -13,14 +14,16 @@ import { ToastrService } from 'ngx-toastr';
 export class EditagreComponent implements OnInit {
   form: FormGroup;
   loading: boolean = false;
-
+  id: number;
+  operacion: String = 'Agregar ';
   constructor(private fb: FormBuilder,
     private _personaService: PersonaService,
     private router: Router,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private aRoute: ActivatedRoute) {
      this.form =  this.fb.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
+    nombre: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+    apellido: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       rut: ['', [Validators.required,  this.validarRut.bind( this)]],
       sexo: ['', [Validators.required,  this.validarSexo.bind( this)]],
       telefono: ['', [Validators.required,  this.validarTelefono.bind( this)]],
@@ -28,11 +31,35 @@ export class EditagreComponent implements OnInit {
       fechaNacimiento: ['', Validators.required],
       email: ['', [Validators.required,  this.validarEmail()]]
     });
-  }
-
-  ngOnInit(): void {
+    this.id = Number(aRoute.snapshot.paramMap.get('id'));
   }
   
+
+  ngOnInit(): void {
+
+    if(this.id !=0){
+      this.operacion = 'Editar ';
+      this.getPersona(this.id);
+    }
+  }
+  
+  getPersona(id: number){
+    this.loading = true;
+    this._personaService.getPersona(id).subscribe((data:Persona) => {
+      this.loading =false;
+      this.form.setValue({
+        nombre:  data.nombre,
+        apellido: data.apellido,
+        rut: data.rut,
+        sexo: data.sexo,
+        telefono: data.telefono,
+        direccion: data.direccion,
+        fechaNacimiento: data.fechaNacimiento,
+        email: data.email
+      })
+    }) 
+  }
+
   guardarPersona() {
 
     const persona: Persona ={
@@ -45,15 +72,48 @@ export class EditagreComponent implements OnInit {
       fechaNacimiento: this.form.value.fechaNacimiento,
       email: this.form.value.email
     }
+    if(this.id !==0) {
+      this.loading = true;
+      persona.id = this.id
+      this._personaService.updatePresona(this.id, persona).subscribe(() => {
+        this.loading = false;
+        this.toastr.success('')
+        this.toastr.success(`Los datos de la persona ${persona.nombre} han sido actualizados con éxito`, 'Datos Actualizados');
+        this.router.navigate(['/']);
+      })
+
+    } else {
+      this.loading = true;
+this._personaService.savePersona(persona).subscribe(
+  () => {
+    this.loading = false;
+    this.toastr.success(`La persona ${persona.nombre} ha sido registrada con éxito`, 'Persona registrada');
+    this.router.navigate(['/']);
+  },
+  (error: any) => {
+    this.loading = false;
+    if (error.status === 400) {
+      this.toastr.error('La persona ingresada ya existe dentro del mantenedor', 'Error');
+    }
+  }
+);
+    }
+
+
     
-    this.loading = true;
-    this._personaService.savePersona(persona).subscribe(() => {
-      this.loading = false;
-      this.toastr.success(`La persona ${persona.nombre} ha sido registrada con exito`, 'Persona registrada');
-      this.router.navigate(['/']);
-    })
+
   }
   // Funciones de validación y otras funciones
+
+  validarNombre(control: { value: string; }) {
+    const nombreRegex = /^[a-zA-Z ]*$/;
+    return nombreRegex.test(control.value) ? null : { 'formatoNombreInvalido': true };
+  }
+  
+  validarApellido(control: { value: string; }) {
+    const apellidoRegex = /^[a-zA-Z ]*$/;
+    return apellidoRegex.test(control.value) ? null : { 'formatoApellidoInvalido': true };
+  }
 
   validarSexo(control: { value: string; }) {
     if (control.value === 'Masculino' || control.value === 'Femenino' || control.value === 'No') {
@@ -120,11 +180,19 @@ export class EditagreComponent implements OnInit {
   }
   // Getters para acceder a los controles del formulario
   get nombre() {
-    return  this.form?.get('nombre');
+    return this.form?.get('nombre');
   }
-
+  
+  get nombreInvalido() {
+    return this.nombre?.invalid && (this.nombre?.dirty || this.nombre?.touched);
+  }
+  
   get apellido() {
-    return  this.form?.get('apellido');
+    return this.form?.get('apellido');
+  }
+  
+  get apellidoInvalido() {
+    return this.apellido?.invalid && (this.apellido?.dirty || this.apellido?.touched);
   }
 
   get sexo() {

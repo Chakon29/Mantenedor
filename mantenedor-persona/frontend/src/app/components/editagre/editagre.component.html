@@ -2,7 +2,7 @@
 <div *ngIf="!loading" class="row mt-1 justify-content-center">
     <div class="col-lg-4">
         <div class="card text-white bg-primary mb-3">
-            <div class="card-header text-center">Agregar Persona</div>
+            <div class="card-header text-center">{{ operacion }} Persona</div>
             <div class="card-body">
                 <h4 class="card-title">Ingrese Campos</h4>
                 <div class="card-text">
@@ -10,10 +10,12 @@
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input formControlName="nombre" type="text" class="form-control" id="nombre" placeholder="Nombre">
+                            <div *ngIf="nombreInvalido">Nombre inválido</div>
                         </div>
                         <div class="mb-3">
                             <label for="apellido" class="form-label">Apellido</label>
                             <input formControlName="apellido" type="text" class="form-control" id="apellido" placeholder="Apellido">
+                            <div *ngIf="apellidoInvalido">Apellido inválido</div>
                         </div>
                         <div class="mb-3">
                             <label for="rut" class="form-label">RUT</label>
